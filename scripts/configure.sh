@@ -14,8 +14,8 @@ wget https://ufpr.dl.sourceforge.net/project/turbovnc/2.2.5/turbovnc_2.2.5_amd64
 sudo dpkg -i turbovnc_2.2.5_amd64.deb
 
 # Third, download ngrok
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-unzip ngrok-stable-linux-amd64.zip
+wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip
+unzip ngrok-v3-stable-linux-amd64.zip
 chmod +x ngrok
 
 # Fourth, generate and copy passwd file and xstartup script
@@ -26,5 +26,6 @@ echo $VNC_PASSWORD | vncpasswd -f > $HOME/.vnc/passwd
 chmod 0600 $HOME/.vnc/passwd
 
 # Fifth and last, set up auth token from argument
+sed -i "s/NGROK_AUTH_TOKEN/$NGROK_AUTH_TOKEN/g" ./resources/ngrok.yml
 ./ngrok authtoken $NGROK_AUTH_TOKEN
 exit

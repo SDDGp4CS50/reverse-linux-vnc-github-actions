@@ -3,7 +3,18 @@
 # During the process, it should get stuck at the last step where it creates a new tunnel on ngrok.
 
 name: Ubuntu
-on: [push]
+
+on:
+  workflow_dispatch:
+    inputs:
+      webservice:
+        type: choice
+        description: Webservice
+        options: 
+        - novnc
+        - cloud9
+        - vscode
+
 defaults:
   run:
     shell: bash
@@ -24,5 +35,10 @@ jobs:
         VNC_DEPTHVALUE: ${{ secrets.VNC_DEPTHVALUE }}
       # legacy run command-- run: cd $HOME && vncserver :1 -geometry $VNC_SCREENSIZE -depth $VNC_DEPTHVALUE -rfbport 7582
       run: export PATH=$PATH:/opt/TurboVNC/bin && cd $HOME && vncserver :1 -geometry $VNC_SCREENSIZE -depth $VNC_DEPTHVALUE -rfbport 7582
+    - name: Starting webservice...
+      env:
+        RUNNER_WEBSERVICE: ${{ github.event.inputs.webservice }}
+        VNC_PASSWORD: ${{ secrets.VNC_PASSWORD }}
+      run: ./scripts/webservice.sh
     - name: Creating tunnel with ngrok...
-      run: ./ngrok tcp 7582
+      run: ./ngrok start --all --config ./resources/ngrok.yml

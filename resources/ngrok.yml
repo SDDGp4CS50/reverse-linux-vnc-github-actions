@@ -1,0 +1,9 @@
+authtoken: NGROK_AUTH_TOKEN
+version: 2
+tunnels:
+    web:
+        proto: http
+        addr: 8080
+    tcp1:
+        proto: tcp
+        addr: 7582
