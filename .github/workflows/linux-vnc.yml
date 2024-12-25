@@ -33,8 +33,8 @@ jobs:
     - run: |
         sudo systemctl stop docker
         mkdir "${GITHUB_WORKSPACE}/docker"
-        mv /var/lib/docker "${GITHUB_WORKSPACE}/docker"
-        ln -s "${GITHUB_WORKSPACE}/docker" /var/lib/docker
+        sudo mv /var/lib/docker "${GITHUB_WORKSPACE}/docker"
+        sudo ln -s "${GITHUB_WORKSPACE}/docker" /var/lib/docker
         sudo systemctl start docker
     - name: Preparing environment...
       env:
