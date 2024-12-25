@@ -48,4 +48,10 @@ jobs:
         VNC_PASSWORD: ${{ secrets.VNC_PASSWORD }}
       run: ./scripts/webservice.sh
     - name: Creating tunnel with ngrok...
-      run: ./ngrok start --all --config ./resources/ngrok.yml
+      run: ./ngrok start --all --config ./resources/ngrok.yml &
+    - name: Ngrok and VNC Configuration
+      run: |
+        ngrok_url=$(curl --silent http://127.0.0.1:4040/api/tunnels | jq -r '.tunnels[0].public_url' || echo "Error: Unable to retrieve ngrok URL")
+        echo "$ngrok_url"
+    - name: Holder
+      run: sleep 86400  # 24 hours in seconds
