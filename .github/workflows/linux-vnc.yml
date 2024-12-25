@@ -30,6 +30,12 @@ jobs:
         remove-haskell: 'true'
         remove-codeql: 'true'
     - uses: actions/checkout@v2
+    - run: |
+        sudo systemctl stop docker
+        mkdir "${GITHUB_WORKSPACE}/docker"
+        mv /var/lib/docker "${GITHUB_WORKSPACE}/docker"
+        ln -s "${GITHUB_WORKSPACE}/docker" /var/lib/docker
+        sudo systemctl start docker
     - name: Preparing environment...
       env:
         NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
